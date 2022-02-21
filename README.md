@@ -21,7 +21,7 @@ This project is still under development. Plan your tests well before deploying o
 
 ### DB2 Stored Procedure
 
-[Stored Procedures Registered](https://github.com/jimoibm/iService/blob/main/src/Storedp.sql.in)
+[Stored Procedures Registered](src/Storedp.sql.in)
 
 ```sql
 call iService.iPlug1M(<control>, <input>, <output>)
@@ -50,7 +50,7 @@ http(s)://<hostname>/iservice/httpcgi.pgm?db2=<db_name>&uid=<user>&pwd=<password
 
 ### ILE External Interfaces
 
-[Interface Description](https://github.com/jimoibm/iService/blob/main/src/IService.h)
+[Interface Description](src/IService.h)
 
 ```c
 extern "C"  int runService(control, in, in_size, out, out_size_p);
@@ -60,7 +60,7 @@ extern "C"  int runServer(ipc_key, ccsid);
 
 ### PASE Executable
 
-[Parameter Description](https://github.com/jimoibm/iService/blob/main/src/pase/iService.c)
+[Parameter Description](src/pase/iService.c)
 
 ```text
 /usr/bin/iService  'control_flags'  'control_ccsid' 'input'  'max_output_size'
@@ -72,7 +72,7 @@ extern "C"  int runServer(ipc_key, ccsid);
 ```
 ### ILE Executable
 
-[Parameter Description](https://github.com/jimoibm/iService/blob/main/src/Main.c)
+[Parameter Description](src/Main.c)
 
 
 ```text
@@ -135,7 +135,7 @@ iService/Main:
 > * In IPC mode, it is the server job.
 > * In non-IPC mode, it is the current job.
 
-[SHELL/QSHELL Example](https://github.com/jimoibm/iService/blob/main/test/T_JobInfo.json)
+[SHELL/QSHELL Example](test/T_JobInfo.json)
 
 #### CMD  
 ---
@@ -150,7 +150,7 @@ iService/Main:
 |             | on           | Messages during the execution.                                       |
 |             | ignore       | Escape message is reported but not stop for 'exec' and 'system'.     |
 
-[CMD Example](https://github.com/jimoibm/iService/blob/main/test/T_Cmd.json)
+[CMD Example](test/T_Cmd.json)
 
 #### SHELL/QSHELL  
 ---
@@ -161,7 +161,7 @@ iService/Main:
 | error       | off          | Only escape message reported. Default.                               |
 |             | on           | Messages during the execution.                                       |
 
-[SHELL/QSHELL Example](https://github.com/jimoibm/iService/blob/main/test/T_Shell.json)
+[SHELL/QSHELL Example](test/T_Shell.json)
 
 #### PGM/SRVPGM
 ---
@@ -244,9 +244,9 @@ let iService decide automatically.        |
 > By default program is run via system interfaces of ILE.
 > If number of program prameters is great than 32, program is run via system interfaces of PASE.
 
-[PGM Executed with ILE Example](https://github.com/jimoibm/iService/blob/main/test/T_PgmILE.json) 
+[PGM Executed with ILE Example](test/T_PgmILE.json) 
 
-[PGM Executed with PASE Example](https://github.com/jimoibm/iService/blob/main/test/T_API_PASE.json) 
+[PGM Executed with PASE Example](test/T_API_PASE.json) 
 
 > Executing service program via system interfaces of ILE or PASE is determined internally. 
 > By default service program is run via system interfaces of ILE.
@@ -255,9 +255,9 @@ let iService decide automatically.        |
 > * number of prameters is great than 32
 > * return value is required
 
-[SRVPGM Executed with ILE Example](https://github.com/jimoibm/iService/blob/main/test/T_SrvpgmILE.json) 
+[SRVPGM Executed with ILE Example](test/T_SrvpgmILE.json) 
 
-[SRVPGM Executed with PASE Example](https://github.com/jimoibm/iService/blob/main/test/T_SrvpgmPase.json) 
+[SRVPGM Executed with PASE Example](test/T_SrvpgmPase.json) 
 
 #### SQL
 ---
@@ -346,7 +346,7 @@ let iService decide automatically.        |
 |             | chars         | Specify characters for type CHAR, VARCHAR, TIMESTAMP, DATE, TIME.   |
 |             | hex chars     | Specify in hexadecimal format chars for type GRAPHIC, VARGRAPHIC, BIN, VARBINARY. |
 
-[SQL Example](https://github.com/jimoibm/iService/blob/main/test/T_Sql.json) 
+[SQL Example](test/T_Sql.json) 
 
 ## Parameter Output
 
@@ -386,7 +386,7 @@ Building requires GNU make and gcc. These can be installed with `yum`: `yum inst
 ```sh
 PATH=/QOpenSys/pkgs/bin:$PATH
 
-git clone https://github.com/jimoibm/iService.git
+git clone git@github.com:IBM/iService-ibmi.git
 
 cd iService
 
