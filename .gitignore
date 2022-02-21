@@ -1,0 +1,15 @@
+*.module
+*.pgm
+*.msg
+*.lib
+*.srvpgm
+Storedp.sql
+Storedp.sqlinst
+*.srcpf
+core
+pase-pgm
+src/Config.h
+test/results
+results/
+
+

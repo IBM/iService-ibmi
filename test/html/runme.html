@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+
+      var jsonObj = [
+//  NOTE: QCCSID should set to not 65535 for CGI job APACHEDFT/QTMHHTP1. Otherwise occurs //
+//     SQL error "Character conversion between CCSID 65535 and CCSID 1200 not valid."     //
+        {"cmd":{"error":"on", "value":"CRTJRNRCV JRNRCV(QUSRSYS/MYJRNRCV) "}},
+          {"cmd":{"error":"on", "value":"CRTJRN JRN(QUSRSYS/MYJRN) JRNRCV(QUSRSYS/MYJRNRCV)"}},
+          {"sql": { "connect":  [{"conn":"conn1", "db":"*LOCAL", "user":"GUEST", "pwd":"passw0rd", 
+                                  "autocommit":"on"}]}},
+          {
+            "sql": {
+              "error":"on",
+              "operation":[
+                {"execDirect": {"conn":"conn1", "rowcount":0,
+                          "value":"CREATE TABLE QUSRSYS.MYTABLE (INTEGER1 INT NOT NULL WITH DEFAULT, SMALLINT1 SMALLINT NOT NULL WITH DEFAULT, BIGINT1 BIGINT NOT NULL WITH DEFAULT, FLOAT1 FLOAT NOT NULL WITH DEFAULT, DECFLOAT1 DECFLOAT NOT NULL WITH DEFAULT, NUMERIC1 NUMERIC NOT NULL WITH  DEFAULT, DECIMAL1 DEC NOT NULL WITH DEFAULT, CHAR1 CHAR ( 32) NOT NULL WITH DEFAULT, VARCHAR1 VARCHAR ( 16) NOT NULL WITH DEFAULT, TIMESTAMP1 TIMESTAMP NOT NULL WITH DEFAULT, GRAPHIC1 GRAPHIC (16) CCSID 1200 NOT NULL WITH DEFAULT, VARGRAPHIC1 VARGRAPHIC ( 16) CCSID 1200 NOT NULL WITH DEFAULT, REAL1 REAL NOT NULL WITH DEFAULT, DOUBLE1 DOUBLE NOT NULL WITH DEFAULT, BIN1 BINARY ( 64) NOT NULL WITH DEFAULT, VARBINARY1 VARBINARY ( 128) NOT NULL WITH DEFAULT, DATE1 DATE NOT NULL WITH DEFAULT, TIME1 TIME NOT NULL WITH DEFAULT)"}}
+              ]
+            }
+          },
+          {"cmd":{"error":"on", "value":"QSYS/STRJRNPF FILE(QUSRSYS/MYTABLE) JRN(QUSRSYS/MYJRN)"}},
+          {
+            "sql": {
+              "error":"on",
+              "operation":[
+                {"execDirect": {"conn":"conn1", "rowcount":0, 
+                  "value":"insert into qusrsys.mytable values(1, 2, 3, 4.4, 555, 6.66, 7777, '8888', '99999', now(), x'00650066', x'00650066', 13.13, 14.14, binary(x'0F0F0F0F'), varbinary(x'10101010'), date(now()), time(now()))"}}
+              ]
+            }
+          },
+          {
+            "sql": {
+              "error":"on",
+              "operation":[
+                {"exec": {"conn":"conn1", "rowcount":0, 
+                          "parm":[{"io":"in", "value":0}, 
+                                  {"io":"in", "value":0}, 
+                                  {"io":"in", "value":0}, 
+                                  {"io":"in", "value":0}, 
+                                  {"io":"in", "value":0}, 
+                                  {"io":"in", "value":0},
+                                  {"io":"in", "value":0}, 
+                                  {"io":"in", "value":"8%%"}, 
+                                  {"io":"in", "value":"9%%"}, 
+                                  {"io":"in", "value":"2000-01-01-01.01.01.010101"}, 
+                                  {"io":"in", "value":"00650066", "Desciption":"Hex chars for utf-16"}, 
+                                  {"io":"in", "value":"00650066", "Desciption":"Hex chars for utf-16"}, 
+                                  {"io":"in", "value":0}, 
+                                  {"io":"in", "value":0}, 
+                                  {"io":"in", "value":"1999-01-01"}, 
+                                  {"io":"in", "value":"00.00.00"},
+                                  {"io":"in", "value":"10101010"},
+                                  {"io":"in", "value":"0F0F0F0F"}
+                                ],
+                          "value":"select * from qusrsys.mytable where INTEGER1>? and SMALLINT1>? and BIGINT1>? and FLOAT1>? and DECFLOAT1>? and NUMERIC1>? and DECIMAL1>? and CHAR1 like ? and VARCHAR1 like ? and TIMESTAMP1>? and GRAPHIC1=? and VARGRAPHIC1=? and REAL1>? and DOUBLE1>? and DATE1>? and TIME1>? and varbinary1 = ? and bin1 = ?",
+                          "fetch":{"block":2, "rec":1}}}
+              ]
+            }
+          },
+          {
+            "sql": {"free": ["all"]}
+          },
+          {"cmd":{"error":"on", "value":"ENDJRNPF FILE(QUSRSYS/MYTABLE)"}}, 
+          {"cmd":{"error":"on", "value":"DLTJRN JRN(QUSRSYS/MYJRN)"}}, 
+          {"cmd":{"error":"on", "value":"DLTJRNRCV JRNRCV(QUSRSYS/MYJRNRCV) DLTOPT(*IGNINQMSG)"}},
+          {"cmd":{"error":"on", "value":"DLTF FILE(QUSRSYS/MYTABLE)"}}
+
+      ];
+
+      /************** Change to your own settings *********************************/
+      var host      = 'URHOST';
+      var db2       = '*LOCAL';
+      var uid       = 'guest';                          // escape if needed
+      var pwd       = 'passw0rd';                       // escape if needed
+      var ctl       = '';                               // escape if needed
+      var input     = escape(JSON.stringify(jsonObj));  // escape if needed
+      var out_size  = 50000;
+
+      var url = 'httpS://' + host + '/iservice/httpcgi.pgm?' + 
+                'db2=' + db2 + '&uid=' + uid + '&pwd=' + pwd + 
+                '&ctl=' + ctl + '&in=' + input + 
+                '&out=' + out_size;
+
+      window.onload = function loadXMLDoc()
+      {
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+          xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+            try 
+            {
+              var res = JSON.parse(xmlhttp.responseText);
+              document.getElementById("status").innerHTML = 'SUCCESS';
+              document.getElementById("output").innerHTML = JSON.stringify(res, undefined, 2);
+            }
+            catch(e)
+            { 
+              document.getElementById("status").innerHTML = 'ERROR';
+              document.getElementById("output").innerHTML = e + ' =====> ' + xmlhttp.responseText;
+            }
+            
+          }
+        }
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      }
+    </script>
+  </head>
+  <body>
+    <div >
+      <h2>NOTE:</h2>
+      <p>To void CORS error for test purpose, add below into <b>/www/apachedft/conf/httpd.conf</b></p>
+      <p>
+        &lt;VirtualHost *:443&gt;</br>
+          ...</br>
+          Header add Access-Control-Allow-Origin "*"</br>
+        &lt;/VirtualHost&gt;</br>
+      </p>
+    </div>
+    <h2 id="status"></h2>
+    <pre id="output"></pre>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+
+      var jsonObj = [
+        {"cmd":{"error":"ignore", "value":"QSYS/CRTLIB LIB(PUBLIB) AUT(*ALL)"}},
+        {"cmd":{"error":"on", "value":"CRTJRNRCV JRNRCV(PUBLIB/MYJRNRCV) "}},
+        {"cmd":{"error":"on", "value":"CRTJRN JRN(PUBLIB/MYJRN) JRNRCV(PUBLIB/MYJRNRCV)"}},
+        {"sql": { "connect":  [{"conn":"conn1", "db":"*LOCAL", "user":"GUEST2", "pwd":"passw0rd", 
+                                "autocommit":"on"}]}},
+        {
+          "sql": {
+            "error":"on",
+            "operation":[
+              {"execDirect": {"conn":"conn1", "rowcount":0,
+                        "value":"CREATE TABLE PUBLIB.MYTABLE (INTEGER1 INT NOT NULL WITH DEFAULT)"}}
+            ]
+          }
+        },
+        {"cmd":{"error":"on", "value":"QSYS/STRJRNPF FILE(PUBLIB/MYTABLE) JRN(PUBLIB/MYJRN)"}},
+        {
+          "sql": {
+            "error":"on",
+            "operation":[
+              {"execDirect": {"conn":"conn1", "rowcount":0, 
+              "value":"insert into publib.mytable values(1)"}}
+            ]
+          }
+        }
+      ];
+
+      /************** Change to your own settings *********************************/
+      var host      = 'URHOST';
+      var db2       = '*LOCAL';
+      var uid       = 'GUEST';                                                    // escape if needed
+      var pwd       = 'passw0rd';                                                 // escape if needed
+      var ctl       = '*performance*ipc(/tmp/k1)*ipclog';                         // escape if needed
+      var input     = escape(JSON.stringify(jsonObj));                            // escape if needed
+      var out_size  = 50000;
+
+      var url = 'httpS://' + host + '/iservice/httpcgi.pgm?' + 
+                'db2=' + db2 + '&uid=' + uid + '&pwd=' + pwd + 
+                '&ctl=' + ctl + '&in=' + input + 
+                '&out=' + out_size;
+
+      window.onload = function loadXMLDoc()
+      {
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+          xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+            try 
+            {
+              var res = JSON.parse(xmlhttp.responseText);
+              document.getElementById("status").innerHTML = 'SUCCESS';
+              document.getElementById("output").innerHTML = JSON.stringify(res, undefined, 2);
+            }
+            catch(e)
+            { 
+              document.getElementById("status").innerHTML = 'ERROR';
+              document.getElementById("output").innerHTML = e + ' =====> ' + xmlhttp.responseText;
+            }
+            
+          }
+        }
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      }
+    </script>
+  </head>
+  <body>
+    <div >
+      <h2>NOTE:</h2>
+      <p>To void CORS error for test purpose, add below into <b>/www/apachedft/conf/httpd.conf</b></p>
+      <p>
+        &lt;VirtualHost *:443&gt;</br>
+          ...</br>
+          Header add Access-Control-Allow-Origin "*"</br>
+        &lt;/VirtualHost&gt;</br>
+      </p>
+    </div>
+    <h2 id="status"></h2>
+    <pre id="output"></pre>
+  </body>
+</html>

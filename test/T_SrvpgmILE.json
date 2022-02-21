@@ -1,0 +1,62 @@
+[
+  { "TestSrc":"test/TESTSRVPGM.c"},
+  {
+    "pgm": {
+      "error": "ON",
+      "name": "TESTSRVPGM",
+      "lib": "ISERVICE",
+      "func": "TestMeAllByRef",
+      "parm": [
+        {
+          "io": "both",
+          "var": "int(4)*",
+          "type": "int(4)",
+          "by" : "ref",
+          "value": 1
+        },
+        {
+          "io": "both",
+          "var": "int(2)*",
+          "type": "int(2)",
+          "by" : "ref",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "var": "int(8)*",
+          "type": "int(8)",
+          "by" : "ref",
+          "value": 3
+        },
+        {
+          "io": "both",
+          "var": "float",
+          "type": "float(2)",
+          "by" : "ref",
+          "value": 4.44
+        },
+        {
+          "io": "both",
+          "var": "double*",
+          "type": "double(3)",
+          "by" : "ref",
+          "value": 5.55
+        },
+        {
+          "io": "both",
+          "var": "uint(4)*",
+          "type": "uint(4)",
+          "by" : "ref",
+          "value": 6
+        },
+        {
+          "io": "both",
+          "var": "uint(2)",
+          "type": "uint(2)",
+          "by" : "ref",
+          "value": 7
+        }
+      ]
+    }
+  }
+]

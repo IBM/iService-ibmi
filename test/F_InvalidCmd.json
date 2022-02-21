@@ -1,0 +1,4 @@
+[
+  {"cmd":{"exec": "cmd", "error":"on", "value": "crtlib %", 
+          "Desciption": "Invalid command string being executed in CL command call."}}
+]

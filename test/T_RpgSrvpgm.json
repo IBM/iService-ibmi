@@ -1,0 +1,120 @@
+[
+  {"testSrc": "test/RPGTPGM.rpgle"},
+  {
+    "pgm": {
+      "name": "RPGSRVPGM",
+      "lib": "ISERVICE",
+      "func": "TESTME",
+      "parm": [
+        {
+          "io": "both",
+          "type": "char(10)",
+          "value": "1"
+        },
+        {
+          "io": "both",
+          "type": "char(10)",
+          "by": "val",
+          "value": "1"
+        },
+        {
+          "io": "both",
+          "type": "int(2)",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "type": "int(2)",
+          "by": "val",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "type": "uint(2)",
+          "value": 3
+        },
+        {
+          "io": "both",
+          "type": "uint(2)",
+          "by": "val",
+          "value": 3
+        },
+        {
+          "io": "both",
+          "type": "int(4)",
+          "value": 4
+        },
+        {
+          "io": "both",
+          "type": "int(4)",
+          "by": "val",
+          "value": 4
+        },
+        {
+          "io": "both",
+          "type": "uint(4)",
+          "value": 5
+        },
+        {
+          "io": "both",
+          "type": "uint(4)",
+          "by": "val",
+          "value": 5
+        },
+        {
+          "io": "both",
+          "type": "int(8)",
+          "value": 6
+        },
+        {
+          "io": "both",
+          "type": "int(8)",
+          "by": "val",
+          "value": 6
+        },
+        {
+          "io": "both",
+          "type": "uint(8)",
+          "value": 7
+        },
+        {
+          "io": "both",
+          "type": "uint(8)",
+          "by": "val",
+          "value": 7
+        },
+        {
+          "io": "both",
+          "type": "packed(10,4)",
+          "value": 8.8
+        },
+        {
+          "io": "both",
+          "type": "packed(10,4)",
+          "by": "val",
+          "value": 8.8
+        },
+        {
+          "io": "both",
+          "type": "zoned(10,4)",
+          "value": 9.9
+        },
+        {
+          "io": "both",
+          "type": "zoned(10,4)",
+          "by": "val",
+          "value": 9.9
+        },
+        {
+          "io": "both",
+          "type": "ds",
+          "value": [
+            { "type": "int(4)", "value": 10 },
+            { "type": "ds", "io": "both", "value": [{ "type": "char(10)", "value": "11" }] }
+          ]
+        }
+      ],
+      "return":{"value":-10000}
+    }
+  }
+]

@@ -1,0 +1,7 @@
+[
+{
+  "cmd": [{"value": "CRTLIB ALIB"}],
+  "Description": "Only 1 {...} can be assigned to 'cmd'. Array [] is not allowed."
+}
+]   
+

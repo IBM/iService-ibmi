@@ -1,0 +1,53 @@
+[
+  {
+    "pgm": {
+      "name": "QWDRJOBD",
+      "lib": "*LIBL",
+      "parm": [
+        {
+          "io": "out",
+          "var": "Receiver variable",
+          "type": "ds",
+          "value": [
+            { "var": "Bytes returned", "type": "int(4)", "value": 0},
+            { "var": "Bytes available", "type": "int(4)", "value": 0},
+            { "var": "Padding", "type": "char(20)", "hex": "on", "value": "" },
+            { "var": "User name", "type": "char(10)", "value": "" },
+            { "var": "Padding", "type": "char(16)", "hex": "on", "value": "" },
+            { "var": "Job queue name", "type": "char(10)", "value": "" },
+            { "var": "Padding", "type": "char(64)", "hex": "on", "value": "" }
+          ]
+        },
+        {
+          "io": "in",
+          "var": "Length of receiver variable",
+          "type": "int(4)",
+          "value": 128
+        },
+        {
+          "io": "in",
+          "var": "Format name",
+          "type": "char(8)",
+          "value": "JOBD0100"
+        },
+        {
+          "io": "in",
+          "var": "Qualified job description name",
+          "type": "char(20)",
+          "value": "QDFTJOBD  *LIBL     "
+        },
+        {
+          "io": "both",
+          "var": "Error code",
+          "type": "ds",
+          "value": [
+            { "var": "Bytes_Provided", "type": "int(4)", "value": 16 },
+            { "var": "Bytes_Available", "type": "int(4)", "value": 0 },
+            { "var": "Exception_Id", "type": "char(7)", "value": "" },
+            { "var": "Padding", "type": "char(1)", "hex": "on", "value": "" }
+          ]
+        }
+      ]
+    }
+  }
+]

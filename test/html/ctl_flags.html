@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+
+      var jsonObj = [                         
+        {"desc": "Testing control flags. No test data needed here."}
+      ];
+
+      /************** Change to your own settings *********************************/
+      var host      = 'URHOST';
+      var db2       = '*LOCAL';
+      var uid       = 'guest';                                                    // escape if needed
+      var pwd       = 'passw0rd';                                                 // escape if needed
+      var ctl       = '*java*before(37)*after(819)*performance' + 
+                      '*ipc(/tmp/k1)*ipcsvr(ISERVICE/MAIN)*endipc' +
+                      '*waitserver(5)*waitclient(12)*waitdata(2)' +
+                      '*ipclog*sbmjob(ISERV:*USRPRF:GUEST)';                      // escape if needed
+      var input     = escape(JSON.stringify(jsonObj));                            // escape if needed
+      var out_size  = 50000;
+
+      var url = 'httpS://' + host + '/iservice/httpcgi.pgm?' + 
+                'db2=' + db2 + '&uid=' + uid + '&pwd=' + pwd + 
+                '&ctl=' + ctl + '&in=' + input + 
+                '&out=' + out_size;
+
+      window.onload = function loadXMLDoc()
+      {
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+          xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+            try 
+            {
+              JSON.parse(xmlhttp.responseText);
+              document.getElementById("status").innerHTML = 'SUCCESS';
+              document.getElementById("output").innerHTML = xmlhttp.responseText;
+            }
+            catch(e)
+            { 
+              document.getElementById("status").innerHTML = 'ERROR';
+              document.getElementById("output").innerHTML = e + ' =====> ' + xmlhttp.responseText;
+            }
+            
+          }
+        }
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+      }
+    </script>
+  </head>
+  <body>
+    <div >
+      <h2>NOTE:</h2>
+      <p>To void CORS error for test purpose, add below into <b>/www/apachedft/conf/httpd.conf</b></p>
+      <p>
+        &lt;VirtualHost *:443&gt;</br>
+          ...</br>
+          Header add Access-Control-Allow-Origin "*"</br>
+        &lt;/VirtualHost&gt;</br>
+      </p>
+    </div>
+    <h2 id="status"></h2>
+    <div id="output"></div>
+  </body>
+</html>

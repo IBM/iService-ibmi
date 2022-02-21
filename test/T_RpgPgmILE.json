@@ -1,0 +1,65 @@
+[
+  {"testSrc": "test/RPGTPGM.rpgle"},
+  {
+    "pgm": {
+      "name": "RPGPGM",
+      "lib": "ISERVICE",
+      "parm": [
+        {
+          "io": "in",
+          "type": "char(10)",
+          "value": "1"
+        },
+        {
+          "io": "in",
+          "type": "int(2)",
+          "value": 2
+        },
+        {
+          "io": "in",
+          "type": "uint(2)",
+          "value": 3
+        },
+        {
+          "io": "in",
+          "type": "int(4)",
+          "value": 4
+        },
+        {
+          "io": "in",
+          "type": "uint(4)",
+          "value": 5
+        },
+        {
+          "io": "in",
+          "type": "int(8)",
+          "value": 6
+        },
+        {
+          "io": "in",
+          "type": "uint(8)",
+          "value": 7
+        },
+        {
+          "io": "in",
+          "type": "packed(10,4)",
+          "value": 8.8
+        },
+        {
+          "io": "in",
+          "type": "zoned(10,4)",
+          "value": 9.9
+        },
+        {
+          "io": "in",
+          "type": "ds",
+          "value": [
+            { "type": "int(4)", "value": 10 },
+            { "type": "ds", "io": "in", "value": [{ "type": "char(10)", "value": "11" }] }
+          ]
+        }
+      ],
+      "return":{"value":-10000}
+    }
+  }
+]

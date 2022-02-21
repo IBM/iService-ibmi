@@ -1,0 +1,8 @@
+[
+  {"cmd":{"exec": "cmd", "error": "on","value": "CHGFTPA AUTOSTART(*SAME)"}},
+  {"cmd":{"exec": "cmd", "error": "ignore","value": "DLTLIB NOEXT"}},
+  {"cmd":{"exec": "system", "value": "CHGFTPA AUTOSTART(*SAME)"}},
+  {"cmd":{"exec": "system", "error": "ignore", "value": "DLTLIB NOEXT"}},
+  {"cmd":{"exec": "rexx", "value": "RTVUSRPRF USRPRF(*CURRENT) RTNUSRPRF(?) GRPPRF(?) CCSID(?N)"}},
+  {"cmd":{"exec": "cmd", "error": "on","value": "DLTLIB NOEXT"}}
+]

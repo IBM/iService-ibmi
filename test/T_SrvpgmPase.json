@@ -1,0 +1,111 @@
+[
+  { "TestSrc":"test/TESTSRVPGM.c"},
+  {
+    "pgm": {
+      "error": "ON",
+      "name": "TESTSRVPGM",
+      "lib": "ISERVICE",
+      "func": "TestMe",
+      "parm": [
+        {
+          "io": "both",
+          "var": "int(4)",
+          "type": "int(4)",
+          "by" : "val",
+          "value": 1
+        },
+        {
+          "io": "both",
+          "var": "int(4)*",
+          "type": "int(4)",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "var": "int(2)",
+          "type": "int(2)",
+          "by" : "val",
+          "value": 1
+        },
+        {
+          "io": "both",
+          "var": "int(2)*",
+          "type": "int(2)",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "var": "int(8)",
+          "type": "int(8)",
+          "by" : "val",
+          "value": 1
+        },
+        {
+          "io": "both",
+          "var": "int(8)*",
+          "type": "int(8)",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "var": "uint(4)",
+          "type": "uint(4)",
+          "by" : "val",
+          "value": 1
+        },
+        {
+          "io": "both",
+          "var": "uint(4)*",
+          "type": "uint(4)",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "var": "uint(2)",
+          "type": "uint(2)",
+          "by" : "val",
+          "value": 1
+        },
+        {
+          "io": "both",
+          "var": "uint(2)*",
+          "type": "uint(2)",
+          "value": 2
+        },
+        {
+          "io": "both",
+          "var": "float",
+          "type": "float(2)",
+          "by" : "val",
+          "value": 1.111
+        },
+        {
+          "io": "both",
+          "var": "float*",
+          "type": "float(2)",
+          "value": 2.2222
+        },
+        {
+          "io": "both",
+          "var": "double",
+          "type": "double(3)",
+          "by" : "val",
+          "value": 1.1111111
+        },
+        {
+          "io": "both",
+          "var": "double*",
+          "type": "double(3)",
+          "value": 2.2222222
+        },
+        {
+          "io": "both",
+          "var": "char*",
+          "type": "char(5)",
+          "value": "abc"
+        }
+      ],
+      "return":{ "type":"int(4)", "value": -10000 }
+    }
+  }
+]

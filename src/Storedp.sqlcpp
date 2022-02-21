@@ -1,0 +1,155 @@
+#include "Storedp.sqlhpp"
+#include "IService.h"
+#include <assert.h>
+
+int run4Storedp(const char* ctl, const char* in, int in_size_max, char* out, int out_size_max)
+{
+  int totalBytes    = 0;
+
+  int   inDataSize    = 0;   
+  const char* pInData = NULL;
+  int   outDataSize   = 0;
+  char* pOutData      = NULL;
+
+  if ( -2 == in_size_max )
+  {
+    inDataSize    = *((short int*) in);
+    pInData = in + sizeof(short int);
+  }
+  else if ( -4 == in_size_max )
+  {
+    inDataSize    = *((int*) in);
+    pInData = in + sizeof(int);
+  }
+  else 
+  { 
+    // dont believe this is true
+    inDataSize = in_size_max;
+    pInData    = in;
+    assert(false);
+  }
+
+  if ( NULL != out )
+  {
+    outDataSize = out_size_max;
+    pOutData    = out + sizeof(int);
+  }
+  else
+  {
+    outDataSize = 0;
+    pOutData    = NULL;    
+  }
+  
+  totalBytes = runService(ctl, pInData, inDataSize, pOutData, &outDataSize); 
+
+  if ( NULL != out )
+  {
+    memcpy(out, (char*) &outDataSize, sizeof(int));
+  }
+
+  return totalBytes;
+}
+
+
+void iPLUG4K(const char* ctl, const char* in, char* out)
+{
+  int size = 4000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUG32K(const char* ctl, const char* in, char* out)
+{
+  int size = 32000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUG65K(const char* ctl, const char* in, char* out)
+{
+  int size = 65000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUG512K(const char* ctl, const char* in, char* out)
+{
+  int size = 512000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUG1M(const char* ctl, const char* in, char* out)
+{
+  int size = 1000000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUG5M(const char* ctl, const char* in, char* out)
+{
+  int size = 5000000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUG10M(const char* ctl, const char* in, char* out)
+{
+  int size = 10000000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUG15M(const char* ctl, const char* in, char* out)
+{
+  int size = 15000000;
+  run4Storedp(ctl, in, -4, out, size);
+}
+
+void iPLUGR4K(const char* ctl, const char* in)
+{
+  int size = 4000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGR32K(const char* ctl, const char* in)
+{
+  int size = 32000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGR65K(const char* ctl, const char* in)
+{
+  int size = 65000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGR512K(const char* ctl, const char* in)
+{
+  int size = 500000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGR1M(const char* ctl, const char* in)
+{
+  int size = 1000000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGR5M(const char* ctl, const char* in)
+{
+  int size = 5000000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGR10M(const char* ctl, const char* in)
+{
+  int size = 10000000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGR15M(const char* ctl, const char* in)
+{
+  int size = 15000000;
+  run4Storedp(ctl, in, -4, NULL, 0);
+}
+
+void iPLUGRC32K(const char* ctl, const char* in, int* count_p)
+{
+  int size = 32000;
+  *count_p = run4Storedp(ctl, in, -2, NULL, 0);
+}
+

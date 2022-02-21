@@ -1,0 +1,22 @@
+#ifndef STOREDP_H
+#define STOREDP_H
+
+extern "C" void   iPLUG4K     (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUG32K    (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUG65K    (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUG512K   (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUG1M     (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUG5M     (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUG10M    (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUG15M    (const char* ctl, const char* in, char* out);
+extern "C" void   iPLUGR4K    (const char* ctl, const char* in);
+extern "C" void   iPLUGR32K   (const char* ctl, const char* in);
+extern "C" void   iPLUGR65K   (const char* ctl, const char* in);
+extern "C" void   iPLUGR512K  (const char* ctl, const char* in);
+extern "C" void   iPLUGR1M    (const char* ctl, const char* in);
+extern "C" void   iPLUGR5M    (const char* ctl, const char* in);
+extern "C" void   iPLUGR10M   (const char* ctl, const char* in);
+extern "C" void   iPLUGR15M   (const char* ctl, const char* in);
+extern "C" void   iPLUGRC32K  (const char* ctl, const char* in, int* count_p);
+
+#endif

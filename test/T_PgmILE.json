@@ -1,0 +1,58 @@
+[
+  {"testSrc": "test/TESTPGM.c"},
+  {
+    "pgm": {
+      "name": "TESTPGM",
+      "lib": "ISERVICE",
+      "parm": [
+        {
+          "io": "both",
+          "var": "string",
+          "type": "char(10)",
+          "value": "value1"
+        },
+        {
+          "io": "both",
+          "var": "int",
+          "type": "int(4)",
+          "value": 4
+        },
+        {
+          "io": "both",
+          "var": "usinged long long",
+          "type": "uint(8)",
+          "value": 8
+        },
+        {
+          "io": "both",
+          "var": "float",
+          "type": "float(3)",
+          "value": 333.222
+        },
+        {
+          "io": "both",
+          "var": "double",
+          "type": "double(5)",
+          "value": 4444.333444
+        },
+        {
+          "io": "both",
+          "var": "hexidecimal",
+          "type": "char(12)",
+          "hex": "on",
+          "value": "010203040506"
+        },
+        {
+          "io": "both",
+          "var": "ds",
+          "type": "ds",
+          "value": [
+            { "var": "ent1", "type": "int(2)", "value": 3 },
+            { "var": "ent2", "type": "char(20)", "value": "ent2_value" }
+          ]
+        }
+      ],
+      "return":{"value":-10000}
+    }
+  }
+]

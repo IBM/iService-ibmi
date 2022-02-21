@@ -1,0 +1,14 @@
+[
+  {
+    "sql": {
+       "error":"on",
+       "operation":[
+        {"execDirect": {"value":"SELECT * FROM QUSRSYS.QATOCHOST",
+                        "fetch":{"block":"all"}}}      
+       ]
+    }
+  },
+  {
+    "sql": {"free": ["all"]}
+  }
+]

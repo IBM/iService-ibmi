@@ -1,0 +1,4 @@
+[
+  {"sh":{"error": "on", "value": "ps -ef"}},
+  {"qsh":{"error": "on", "value": "echo '123'"}}
+]

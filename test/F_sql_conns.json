@@ -1,0 +1,19 @@
+[
+  {"sql": { "servermode": "off",
+            "connect":  [{"conn":"conn1", "db":"*LOCAL", "user":"GUEST2", "pwd":"passw0rd", 
+                          "autocommit":"off", "commit":"read_committed"}]}},
+  {
+    "sql": {
+       "error":"on",
+       "operation":[
+        {"execDirect": {
+          "value":"select HOSTNME1 from qusrsys.qatochost",
+          "fetch":{"block":1, "rec":3}}},
+        {"execDirect": {"conn":"conn1",
+                  "value":"select HOSTNME1 from qusrsys.qatochost",
+                  "fetch":{"block":1, "rec":3}}},
+        {"commit":{"conn":"conn1", "action":"COMMIT" }}    
+       ]
+    }
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {"sql": { "servermode": "on",
+            "connect":  [{"conn":"conn1", "db":"*LOCAL", "user":"GUEST", "pwd":"passw0rd", 
+                          "autocommit":"off"},
+                         {"conn":"conn2", "db":"*LOCAL", "user":"GUEST2", "pwd":"passw0rd", 
+                           "autocommit":"on"},
+                         {"conn":"conn3", "db":"URDB2", "user":"GUEST2", "pwd":"passw0rd", 
+                          "autocommit":"off", "commit":"read_committed"}]}},
+  {
+    "sql": {
+       "error":"on",
+       "operation":[
+        {"execDirect": {"conn":"conn1", "rowcount":0,
+                  "value":"select HOSTNME1 from qusrsys.qatochost",
+                  "fetch":{"block":1, "rec":3}}},
+        {"execDirect": {"conn":"conn2",
+                  "value":"select HOSTNME1 from qusrsys.qatochost",
+                  "fetch":{"block":1, "rec":3}}},
+        {"execDirect": {"conn":"conn3",
+                  "value":"select HOSTNME1 from qusrsys.qatochost",
+                  "fetch":{"block":1, "rec":3}}},
+        {"execDirect": {
+                  "value":"select HOSTNME1 from qusrsys.qatochost",
+                  "fetch":{"block":1, "rec":3}}},
+        {"commit":{"conn":"conn1", "action":"COMMIT" }}    
+       ]
+    }
+  }
+]

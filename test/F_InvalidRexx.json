@@ -1,0 +1,4 @@
+[
+  {"cmd":{"exec": "rexx", "error": "on", "value": "RTVUSRPRF USRPRF(*CURRENT) RTNUS"},
+          "Description": "Invalid command string being executed in REXX."}
+]
