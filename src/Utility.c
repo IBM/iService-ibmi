@@ -686,7 +686,6 @@ bool getMessage(std::string& msg, const char* msgReplData,
           const_cast<char*>(msgFile), const_cast<char*>(msgReplData),
           strlen(msgReplData), "*YES      ", "*NO       ",
           &e);
-  assert( e.Bytes_Available == 0 );
   if ( 0 == e.Bytes_Available )
   {
     ret = true;

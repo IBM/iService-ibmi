@@ -1,0 +1,3 @@
+[
+  {"cmd":{"exec": "cmd", "error": "on","value": "CHGCURLIB NOEXT"}}
+]

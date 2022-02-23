@@ -19,6 +19,7 @@
  * Test program.
  * Usage:
  *  CALL ISERVICE/MainTest 
+ *      [output_dir]
  *      [/path/file.json|*.json] 
  *      [ctl_flags]
  *********************************************************/
@@ -26,7 +27,7 @@
 int main(int argc, char* argv[])
 {
   const int  BUF_LEN = 1024;
-  const char OUT_DIR[BUF_LEN] = {"./results/"};
+  char OUT_DIR[BUF_LEN] = {'\0'};
   const int  OUTPUT_LEN = 16000000;
 
   std::vector<std::string> jsonFiles;  
@@ -40,28 +41,27 @@ int main(int argc, char* argv[])
   int rc = 0;
 
 
-  if ( argc != 2 && argc != 3 )
+  if ( argc != 3 && argc != 4 )
   {
-    printf("CALL ISERVICE/MAINTEST [/path/file.json|/path/*.json] [ctl_flags] \n");
+    printf("CALL ISERVICE/MAINTEST [output_dir] [/path/file.json|/path/*.json] [ctl_flags] \n");
     return 1;
-  }
-
-  //-----------------------------------------------------------------------------------//
-  //--------------- Create output directory and ignore exist error --------------------//
-  //-----------------------------------------------------------------------------------//
-
-  rc = mkdir(OUT_DIR, S_IRWXU|S_IRGRP|S_IXGRP);
-  if ( 0 != rc && EEXIST != errno ) {
-    printf("mkdir() failed with errno = %d : %s \n", errno, strerror(errno));
-    return 2;
   }
 
   //----------------------------------------------------------------------------------//
   //--------------- Parse arguments --------------------------------------------------//
   //----------------------------------------------------------------------------------//
+  /****** Argument 1: output directory ********************/
+  strcpy(OUT_DIR, argv[1]);
+  strcat(OUT_DIR, "/");
+  rc = mkdir(OUT_DIR, S_IRWXU|S_IRGRP|S_IXGRP);
+  int errNum = errno;
+  if ( 0 != rc && EEXIST != errNum ) {
+    printf("mkdir() failed with errno = %d : %s \n", errno, strerror(errno));
+    return 2;
+  }
 
-  /****** Argument 1: input json file ********************/
-  std::string fileName(argv[1]);
+  /****** Argument 2: input json file ********************/
+  std::string fileName(argv[2]);
   int pos = fileName.find("/*.json");
 
   if ( pos != std::string::npos ) 
@@ -101,10 +101,10 @@ int main(int argc, char* argv[])
     jsonFiles.push_back(fileName);
   }
 
-  /******** Argument 2: control flags *********************/
-  if ( 3 == argc ) 
+  /******** Argument 3: control flags *********************/
+  if ( 4 == argc ) 
   {
-    flags = argv[2];
+    flags = argv[3];
 
   }
 
