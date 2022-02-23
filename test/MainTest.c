@@ -18,7 +18,7 @@
 /*********************************************************
  * Test program.
  * Usage:
- *  CALL ISERVICE/TPARSEFILE 
+ *  CALL ISERVICE/MainTest 
  *      [/path/file.json|*.json] 
  *      [ctl_flags]
  *********************************************************/
