@@ -79,19 +79,13 @@ int IPC::lockClientQ(FlightRec& fr)
 
   ipcPtr->_ops[1].sem_num = QCLNT; 
   ipcPtr->_ops[1].sem_op =  1;
-  if ( IPC::isServer() )
-  {
-    ipcPtr->_ops[1].sem_flg = 0; 
-  }
-  else
-  {
-    /////////////////////////////////////////////////////////////////////
-    // If IPC client job is ended immediately after IPC server gets    //
-    // ready to listen for next client, current client job could not   //
-    // release client q.                                               //
-    /////////////////////////////////////////////////////////////////////
-    ipcPtr->_ops[1].sem_flg = SEM_UNDO;
-  }
+
+  /////////////////////////////////////////////////////////////////////
+  // If IPC client job is ended immediately after IPC server gets    //
+  // ready to listen for next client, current client job could not   //
+  // release client q.                                               //
+  /////////////////////////////////////////////////////////////////////
+  ipcPtr->_ops[1].sem_flg = SEM_UNDO;
 
   rc = semop( ipcPtr->_semid, ipcPtr->_ops, 2 ); 
   if (rc == -1)
@@ -112,6 +106,36 @@ int IPC::lockClientQ(FlightRec& fr)
   {}
 
   return ret;
+}
+
+/******************************************************************
+ * Unlock client queue.
+ *****************************************************************/
+void IPC::unlockClientQ(FlightRec& fr)
+{
+  int rc = 0; 
+  IPC* &ipcPtr = me();
+
+  ipcPtr->_ops[0].sem_num = QCLNT; 
+  ipcPtr->_ops[0].sem_op =  -1;
+  ipcPtr->_ops[0].sem_flg = IPC_NOWAIT;
+
+  rc = semop( ipcPtr->_semid, ipcPtr->_ops, 1 ); 
+  if (rc == -1)
+  {
+    if ( EIDRM == errno )
+    {
+      // EIDRM(3509) - The semaphore, shared memory, or message queue identifier is removed from the system.
+    }
+    else
+    {
+      fr.code(ERR_IPC_CLNT_REQUEST);
+      fr.addMessage(errno, strerror(errno));
+    }
+  }
+  else
+  {}
+
 }
 
 
@@ -423,8 +447,9 @@ bool IPC::clientClose(FlightRec& fr)
     }
   }
   ///////////////////////////////////////////////////////////////////
-  // client Q is automatically unlocked by SEM_UNDO when job ends. //
+  // Explicitly unlock client Q in case this is an interactive job //
   ///////////////////////////////////////////////////////////////////
+  unlockClientQ(fr);
 
   return true;
 }

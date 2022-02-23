@@ -82,6 +82,7 @@ public:
   static bool setSignals(bool enable, FlightRec& fr);
   static void destroy(FlightRec& fr);
   static int  lockClientQ(FlightRec& fr);
+  static void unlockClientQ(FlightRec& fr);
   
   //-------------- Client functions ------------------------------------------
   static bool clientConnect(FlightRec& fr);
