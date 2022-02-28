@@ -357,7 +357,7 @@ let iService decide automatically.        |
 |  Attribute  | Value         | Description                                                         |
 |-------------|---------------|---------------------------------------------------------------------|
 | STATUS      | 0             | Successful.                                                         |
-|             | > 0           | Failed.                                                             |
+|             | > 0           | Failed. [See definitions](./src/FlightRec.h) |
 
 #### Individual Status
 
@@ -370,7 +370,7 @@ let iService decide automatically.        |
 |  Attribute  | Value         | Description                                                         |
 |-------------|---------------|---------------------------------------------------------------------|
 | CODE        | 0             | Successful.                                                         |
-|             | > 0           | Failed.                                                             |
+|             | > 0           | Failed. [See definitions](./src/FlightRec.h)  |
 | MESSAGE     | []            | Array of result messages.                                           |
 | DATA        | {}, []        | Contains result data.                                               |
 
