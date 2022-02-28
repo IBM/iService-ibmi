@@ -405,7 +405,7 @@ make LIBRARY=yourlib DBGVIEW=*ALL
 
 - The control for accessing the IPC server job is controlled by the authorities to the IPC key in IFS. If user profiles or their group profile running the client jobs have the access to the IPC key, then they can interact with the related IPC server job. *sbmjob is used to indicate under which user profile the server job will run when submitting IPC server jobs. Plan proper policy based on your own requirement in security and audit controls:
 
-  * If expecting an IPC server job can only be accessed by a specific user, consider using *sbmjob(job:jobd:THIS_USER) to submit the IPC server job. Then IPC server job will run under THIS_USER and only serve client job requests from THIS_USER. THIS_USER better have no group profile assigned.
+  * If expecting an IPC server job can only be accessed by a specific user, consider using *sbmjob(job:jobd:THIS_USER) to submit the IPC server job. Then IPC server job will run under THIS_USER and only serve client job requests from THIS_USER. THIS_USER better have no group profile assigned to share access with others.
 
   * If expecting the client jobs from a group of users to be served by the same IPC server job, consider using *sbmjob(job:jobd:THAT_USER). The group of users should be assigned with the same group profile. THAT_USER could be the group profile or one of the user profiles, under which you expect the submitted IPC server job is running.
 

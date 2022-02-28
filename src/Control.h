@@ -11,7 +11,7 @@
  *    *waitdata(seconds)            Timeout for waiting data
  *    *ipclog                       Force IPC server dump joblog
  *    *ipcsvr(lib/pgm)              IPC server startup program. iServie/Main by default
- *    *sbmjob[(job:jobd:user)]      *USRPRF:QSYS/QSRVJOB:ISERVICE by default
+ *    *sbmjob[(job:jobd:user)]      ISERVICE:QSYS/QSRVJOB:*USRPRF by default
  *    *java                         Start java debug with pase.
  *    *before(ccsid)                CCSID of input
  *    *after(ccsid)                 CCSID of output
