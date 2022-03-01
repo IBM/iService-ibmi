@@ -141,14 +141,16 @@ bool Control::parse(const char* control, FlightRec& fr)
         {
           incr += step;
           char* e = NULL;
+          errno = 0; // Easy check to avoid checking combinations of return value and errno.
           long long int lli = strtoll(v.c_str(), &e, 10);
-          if ( EINVAL != errno && ERANGE != errno )
+          if ( 0 == errno )
           {
             ctlp->_after = (int)lli;
           }
           else
           {
             fr.code(ERR_CONTROL_INIT);
+            fr.addMessage(errno, strerror(errno));
             fr.addMessage(v.c_str(), "INVALID VALUE SPECIFIED FOR CONTROL FLAG *AFTER.");
             ret = false;
             break;
@@ -174,14 +176,16 @@ bool Control::parse(const char* control, FlightRec& fr)
         {
           incr += step;
           char* e = NULL;
+          errno = 0; // Easy check to avoid checking combinations of return value and errno.
           long long int lli = strtoll(v.c_str(), &e, 10);
-          if ( EINVAL != errno && ERANGE != errno )
+          if ( 0 == errno )
           {
             ctlp->_before = (int)lli;
           }
           else
           {
             fr.code(ERR_CONTROL_INIT);
+            fr.addMessage(errno, strerror(errno));
             fr.addMessage(v.c_str(), "INVALID VALUE SPECIFIED FOR CONTROL FLAG *BEFORE.");
             ret = false;
             break;

@@ -55,7 +55,10 @@
           "type": "ds",
           "value": [
             { "type": "int(4)", "value": 10 },
-            { "type": "ds", "io": "in", "value": [{ "type": "char(10)", "value": "11" }] }
+            { "type": "char(12)", "var":"filler", "value": "" },
+            { "type": "ds", "value": [
+              { "type": "char(10)", "by": "ref", "value": "a" },
+              { "type": "char(10)", "hex": "on", "value": "C5" }] }
           ]
         }
       ],

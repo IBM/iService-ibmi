@@ -642,8 +642,9 @@ bool Argument::copyIn(FlightRec& fr, bool srvpgm)
                 char s[3] = {'\0'};
                 memcpy(s, pIn, 2);
                 char* e = NULL;
+                errno = 0; // Easy check to avoid checking combinations of return value and errno.
                 char c = (char) strtol(s, &e, 16);
-                if ( EINVAL != errno && ERANGE != errno )
+                if ( 0 == errno )
                 {
                   *out = c;
                 }
@@ -659,6 +660,7 @@ bool Argument::copyIn(FlightRec& fr, bool srvpgm)
               if ( ind != iLen/2 )
               {
                 fr.code(ERR_ARGUMENT_INIT);
+                fr.addMessage(errno, strerror(errno));
                 fr.addMessage(_value_p, "INVALID HEXADECIMAL CHARS.");
                 ret = false;
               }
@@ -670,8 +672,9 @@ bool Argument::copyIn(FlightRec& fr, bool srvpgm)
       {
         s = _attr_p->valueString().c_str();
         e = NULL;
+        errno = 0; // Easy check to avoid checking combinations of return value and errno.
         long long int lli = strtoll(s, &e, 10);
-        if ( EINVAL != errno && ERANGE != errno )
+        if ( 0 == errno )
         {
           if ( 2 == _bytes ) 
           {
@@ -721,6 +724,7 @@ bool Argument::copyIn(FlightRec& fr, bool srvpgm)
         else
         {
           fr.code(ERR_ARGUMENT_INIT);
+          fr.addMessage(errno, strerror(errno));
           fr.addMessage(_value_p, "INVALID BYTES NUMBER FOR INT().");
           ret = false;              
         } 

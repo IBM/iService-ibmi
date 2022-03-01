@@ -1,6 +1,7 @@
 [
   {
     "pgm": {
+      "pase": "on",
       "name": "QWDRJOBD",
       "lib": "*LIBL",
       "parm": [

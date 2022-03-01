@@ -918,8 +918,9 @@ bool Operation::init(FlightRec& fr)
         {
           const char* s = v.c_str();
           char* e = NULL;
+          errno = 0; // Easy check to avoid checking combinations of return value and errno.
           long long int lli = strtoll(s, &e, 10);
-          if ( EINVAL != errno && ERANGE != errno )
+          if ( 0 == errno )
           {
             _block = (int)lli;
             if ( _block < 0 )
@@ -932,6 +933,7 @@ bool Operation::init(FlightRec& fr)
           else
           {
             fr.code(ERR_SQL_INIT);
+            fr.addMessage(errno, strerror(errno));
             fr.addMessage(v, "INVALID VALUE FOR BLOCK IN FETCH.");
             return ret;
           }
@@ -950,8 +952,9 @@ bool Operation::init(FlightRec& fr)
         trim(v);
         const char* s = v.c_str();
         char* e = NULL;
+        errno = 0; // Easy check to avoid checking combinations of return value and errno.
         long long int lli = strtoll(s, &e, 10);
-        if ( EINVAL != errno && ERANGE != errno )
+        if ( 0 == errno )
         {
           _rec = (int)lli;
           if ( _rec <= 0 )
@@ -964,6 +967,7 @@ bool Operation::init(FlightRec& fr)
         else
         {
           fr.code(ERR_SQL_INIT);
+          fr.addMessage(errno, strerror(errno));
           fr.addMessage(v, "INVALID VALUE FOR REC IN FETCH.");
           return ret;
         }

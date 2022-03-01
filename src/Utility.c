@@ -469,8 +469,9 @@ bool hexChar2Bin(std::string& s)
       char s[3] = {'\0'};
       memcpy(s, pIn, 2);
       char* e = NULL;
+      errno = 0; // Easy check to avoid checking combinations of return value and errno.
       char c = (char) strtol(s, &e, 16);
-      if ( EINVAL != errno && ERANGE != errno )
+      if ( 0 == errno )
       {
         out += c;
       }
