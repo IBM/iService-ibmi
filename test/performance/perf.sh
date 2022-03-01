@@ -51,6 +51,14 @@ do
   else
     curl -s ${url};
   fi
+
+  rc=$?;
+  if (( ${rc} != 0 ))
+  then
+    echo -e "(E)curl failed with rc = "${rc}
+    break;
+  fi
+
 done
 etime=$(date +"%s.%N")
 echo -e "\n"
