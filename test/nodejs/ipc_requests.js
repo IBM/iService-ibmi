@@ -1,16 +1,5 @@
-/*********************************************************
- * Run shell cmd before calling this nodejs to accept 
- * self-signed certificate.
- * > export NODE_TLS_REJECT_UNAUTHORIZED='0'
- *********************************************************/
 
-const { Console } = require('console');
-const { Http2ServerResponse } = require('http2');
-const https = require('https')
-
-const LoopCount = 100;
-
-console.log('You may need to run > export NODE_TLS_REJECT_UNAUTHORIZED=\'0\'');
+const http = require('http')
 
 var jsons =new Array();
 
@@ -107,10 +96,19 @@ jsons.push([
 ]);
 
 
+if ( process.argv.length !== 8 ) {
+  console.log('Usage: \n');
+  console.log('node ./ipc_requests.js <host> <port> <db2> <user> <pwd> <loop_count>\n');
+  process.exit(1);
+}
 
-var db2       = '*LOCAL';
-var uid       = 'GUEST2';                                                   // escape if needed
-var pwd       = 'passw0rd';                                                 // escape if needed
+var host      = process.argv[2]; //'URHOST'
+var port      = process.argv[3]; //'URPORT'
+var db2       = process.argv[4]; //'*LOCAL' 
+var uid       = process.argv[5]; //'GUEST'                                  // escape if needed
+var pwd       = process.argv[6]; //'passw0rd';                              // escape if needed
+var LoopCount = process.argv[7];
+
 var ctl       = '*ipc(/tmp/k1)*waitclient(300)*waitdata(3)*ipclog';         // escape if needed
 var out_size  = 50000;
 
@@ -121,8 +119,8 @@ while ( i < LoopCount ) {
 
   /************** Change to your own settings *********************************/
   let options = {
-    hostname: 'URHOST',
-    port: 443,
+    hostname: `${host}`,
+    port: `${port}`,
     path: '/ISERVICE/HTTPCGI.PGM?',
     method: 'GET'
   };
@@ -133,7 +131,7 @@ while ( i < LoopCount ) {
                 '&out=' + out_size;
   console.log('>>>> Requsest ' + i + ' : ' + input);
 
-  const req = https.request(options, res => {
+  const req = http.request(options, res => {
     console.log(`statusCode: ${res.statusCode}` + '\n');
 
     res.on('data', d => {

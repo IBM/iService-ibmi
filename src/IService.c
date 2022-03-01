@@ -385,6 +385,9 @@ int runServer(const char* ipc_key, int ccsid)
       // Refresh fr for next request coming in.
       fr.code(ERR_OK);
       fr.clearMessages();
+      // Free allocated memory for previous request
+      delete iNode;
+      iNode = NULL;
 
       if ( IPC::beingEnded() )
       {
@@ -578,6 +581,9 @@ int runServer(const char* ipc_key, int ccsid)
     {    
       IPC::destroy(fr);  
       done = true;
+
+      delete iNode;
+      iNode = NULL;
 
       sendMsg2Joblog("IPC SERVER ENDED.");
     }
