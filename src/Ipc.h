@@ -48,7 +48,7 @@
 //   |    (CLNT_WAIT:-1)               +--> send response(write shrdm)           |
 //   |                                 |                                         |
 //   |                                 +--> notify client to receive response    |
-//   |                                 |                                         |                
+//   |                                 |    (CLNT_WAIT:+1)                       |              
 //   +--> receive response(read shrdm) |                                         |
 //   |                                 +--> wait client to finish receiving      |
 //   |                                 |    (SVR_WAIT:-1)                        |                 
@@ -56,8 +56,7 @@
 //   |    ((SVR_WAIT:+1))              |                                         |
 //   |                                 |                                         |
 //   |                                 +-----------------------------------------+
-//   +--> unlock client Q(SEM_UNDO) 
-//        when job ends
+//   +--> unlock client Q 
 //
 ////////////////////////////////////////////////////////////////////////////
 

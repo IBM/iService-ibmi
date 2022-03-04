@@ -109,7 +109,7 @@ iService/Main:
 | *waitserver(seconds)      | IPC client waits IPC server to start up. Value must greater than 0. Default is 5 seconds. IPC client only. | 
 | *waitclient(seconds)      | IPC server timeout value of listening for clients. 0 means forever. Default is 300 seconds. IPC server only.                           |
 | *waitdata(seconds)        | IPC server timeout value of exchanging data with clients. 0 means forever. Default is 5 seconds IPC server only.                           |
-| *ipclog                   | IPC server log messages into joblog. WRKJOBLOG JOBLOGSTT(*PENDING) to check IPC server joblog. IPC server only.               |
+| *ipclog                   | IPC server/clients log messages and dump to spooled files.             |
 | *sbmjob[(job:jobd:user)]   | Describe for IPC server job to submit. *sbmjob(ISERVICE:QSYS/QSRVJOB:*CURRENT) is used as default.                     |
 | *ipcsvr(lib/pgm)          | IPC server startup program.                                                           |
 

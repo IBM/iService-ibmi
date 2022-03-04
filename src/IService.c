@@ -595,17 +595,5 @@ int runServer(const char* ipc_key, int ccsid)
     }
   }
 
-  //-------------- force joblog dumped -------------------------------
-  if ( Control::ipcLog() )
-  {
-    std::string cmd("CHGJOB JOB(*) LOGOUTPUT(*PND)");
-    doCommand(cmd, fr);
-    sendMsg2Joblog("IPC SERVER ENDED. FORCE TO DUMP IPC SERVER LOG.", true);
-  }
-  else
-  {
-    sendMsg2Joblog("IPC SERVER ENDED.");
-  }
-
   return 0;
 }

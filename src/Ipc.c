@@ -57,6 +57,14 @@ IPC::~IPC()
 {
   FlightRec fr;
   IPC::destroy(fr);
+
+  // Dump joblog into splf
+  if ( Control::ipcLog() )
+  {
+    std::string cmd("DSPJOBLOG JOB(*) OUTPUT(*PRINT)");
+    doCommand(cmd, fr);
+  }
+
 }
 
 /*************************************************
@@ -79,13 +87,7 @@ int IPC::lockClientQ(FlightRec& fr)
 
   ipcPtr->_ops[1].sem_num = QCLNT; 
   ipcPtr->_ops[1].sem_op =  1;
-
-  /////////////////////////////////////////////////////////////////////
-  // If IPC client job is ended immediately after IPC server gets    //
-  // ready to listen for next client, current client job could not   //
-  // release client q.                                               //
-  /////////////////////////////////////////////////////////////////////
-  ipcPtr->_ops[1].sem_flg = SEM_UNDO;
+  ipcPtr->_ops[1].sem_flg = 0;
 
   rc = semop( ipcPtr->_semid, ipcPtr->_ops, 2 ); 
   if (rc == -1)
@@ -441,15 +443,11 @@ bool IPC::clientClose(FlightRec& fr)
       fr.addMessage(errno, strerror(errno));
       ret = false;
     }
-    else
-    {
-      ipcPtr->_shdm_p = NULL;
-    }
+
+    ipcPtr->_shdm_p = NULL;
+
+    unlockClientQ(fr);
   }
-  ///////////////////////////////////////////////////////////////////
-  // Explicitly unlock client Q in case this is an interactive job //
-  ///////////////////////////////////////////////////////////////////
-  unlockClientQ(fr);
 
   return true;
 }
@@ -488,13 +486,20 @@ bool IPC::sendRequest(int ctl_size, int in_size, const char* control, const char
 #pragma exception_handler ( sndreq_ex, 0, _C1_ALL, _C2_ALL, _CTLA_HANDLE )
   Request_Header* req = (Request_Header*)ipcPtr->_shdm_p;
   int ctlSize = ctl_size + 1;
-  req->ctl_size = ctlSize;
-  req->in_size  = in_size;
-  char* ctlData = &(req->data);
-  char* inData  = ctlData + ctlSize;
+  req->ctl_size = ctlSize; // Control flags size: reserve 1 char for null-terminator
+  req->in_size  = in_size; // Input
+
+  char* ctlData = &(req->data); // Control flags data
+  memset(ctlData, '\0', ctlSize);
   memcpy(ctlData, control, ctl_size);
-  memset(ctlData + ctl_size, '\0', 1); // Appended null-terminator
+
+  char* inData  = ctlData + ctlSize; // Input data
   memcpy(inData, in, in_size);
+
+  // Dump control flags written in shared memory
+  if ( Control::ipcLog() ) {
+    sendMsg2Joblog(ctlData);
+  }
 
   //---- Wake up server to process request  --------------------- 
   ipcPtr->_ops[0].sem_num = SVR_WAIT; 
@@ -645,9 +650,19 @@ bool IPC::receiveRequest(char* &control, char* &in, int &in_size, FlightRec& fr)
   Request_Header* req = (Request_Header *)ipcPtr->_shdm_p;
   if ( NULL != req )
   {
-    in_size = req->in_size;
+    // Get control flags start pointer from shared memory
     control = &(req->data);
+
+    // Get input size from shared memory
+    in_size = req->in_size;
+    // Get input data start pointer from shared memory
     in  = &(req->data) + req->ctl_size;
+
+    // Dump control flags read from shared memory
+    sendMsg2Joblog(control);
+    char inSizeStr[256] = {'\0'};
+    sprintf(inSizeStr, "Input data size = %d", in_size);
+    sendMsg2Joblog(inSizeStr);
   }
 
   return true;
@@ -740,10 +755,8 @@ void IPC::destroy(FlightRec& fr)
         char* errInfo = strerror(errno);
         fr.addMessage(err, errInfo); 
       }
-      else
-      {
-        ipcPtr->_ipcKey.clear();
-      }
+
+      ipcPtr->_ipcKey.clear();
     }
 
     //---- destroy shared memory -----------------------------
@@ -756,10 +769,8 @@ void IPC::destroy(FlightRec& fr)
         fr.addMessage("SERVER FAILED TO DETACH SHARED MEMORY.");
         fr.addMessage(errno, strerror(errno));
       }
-      else
-      {
-        ipcPtr->_shdm_p = NULL;
-      }
+
+      ipcPtr->_shdm_p = NULL;
     }
 
     if ( -1 != ipcPtr->_shdmid )
@@ -772,10 +783,8 @@ void IPC::destroy(FlightRec& fr)
         fr.addMessage("SERVER FAILED TO REMOVE SHARED MEMORY.");
         fr.addMessage(errno, strerror(errno));
       }
-      else
-      {
-        ipcPtr->_shdmid = -1;
-      }
+        
+      ipcPtr->_shdmid = -1;
     }
 
     //----- destroy semphore ---------------------------------
@@ -788,10 +797,8 @@ void IPC::destroy(FlightRec& fr)
         fr.addMessage("SERVER FAILED TO REMOVE SEMPHORE.");
         fr.addMessage(errno, strerror(errno));
       }
-      else
-      {
-        ipcPtr->_semid = -1;
-      }
+      
+      ipcPtr->_semid = -1;
     }
   }
   else
@@ -838,6 +845,11 @@ static void sigHandler( int sig )
   }
   else
   {}
+  
+  char msgStr[256] = {'\0'};
+  sprintf(msgStr, "RECEIVIED SIGNAL = %d", sig);
+  sendMsg2Joblog(msgStr);
+
   IPC::destroy(fr);
 
   //--- restore mask ----------------------

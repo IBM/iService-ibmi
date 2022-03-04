@@ -3,6 +3,7 @@ const http = require('http')
 
 var jsons =new Array();
 
+// #1
 jsons.push([
   {"cmd":{"exec": "cmd", "error": "on","value": "CHGFTPA AUTOSTART(*SAME)"}},
   {"cmd":{"exec": "cmd", "error": "ignore","value": "DLTLIB NOEXT"}},
@@ -11,75 +12,71 @@ jsons.push([
   {"cmd":{"exec": "rexx", "value": "RTVUSRPRF USRPRF(*CURRENT) RTNUSRPRF(?) GRPPRF(?) CCSID(?N)"}},
   {"cmd":{"exec": "cmd", "error": "on","value": "DLTLIB NOEXT"}}
 ]);
-
+// #2
 jsons.push([
   {"jobinfo":{"name":"","number":"","user":""}}
 ]);
-
+// #3
 jsons.push([
-  {"testSrc": "test/TESTPGM.c"},
   {
     "pgm": {
-      "name": "TESTPGM",
-      "lib": "ISERVICE",
+      "name": "QWDRJOBD",
+      "lib": "*LIBL",
       "parm": [
         {
-          "io": "both",
-          "var": "string",
-          "type": "char(10)",
-          "value": "value1"
-        },
-        {
-          "io": "both",
-          "var": "int",
-          "type": "int(4)",
-          "value": 4
-        },
-        {
-          "io": "both",
-          "var": "usinged long long",
-          "type": "uint(8)",
-          "value": 8
-        },
-        {
-          "io": "both",
-          "var": "float",
-          "type": "float(3)",
-          "value": 333.222
-        },
-        {
-          "io": "both",
-          "var": "double",
-          "type": "double(5)",
-          "value": 4444.333444
-        },
-        {
-          "io": "both",
-          "var": "hexidecimal",
-          "type": "char(12)",
-          "hex": "on",
-          "value": "010203040506"
-        },
-        {
-          "io": "both",
-          "var": "ds",
+          "io": "out",
+          "var": "Receiver variable",
           "type": "ds",
           "value": [
-            { "var": "ent1", "type": "int(2)", "value": 3 },
-            { "var": "ent2", "type": "char(20)", "value": "ent2_value" }
+            { "var": "Bytes returned", "type": "int(4)", "value": 0},
+            { "var": "Bytes available", "type": "int(4)", "value": 0},
+            { "var": "Padding", "type": "char(20)", "hex": "on", "value": "" },
+            { "var": "User name", "type": "char(10)", "value": "" },
+            { "var": "Padding", "type": "char(16)", "hex": "on", "value": "" },
+            { "var": "Job queue name", "type": "char(10)", "value": "" },
+            { "var": "Padding", "type": "char(64)", "hex": "on", "value": "" }
+          ]
+        },
+        {
+          "io": "in",
+          "var": "Length of receiver variable",
+          "type": "int(4)",
+          "value": 128
+        },
+        {
+          "io": "in",
+          "var": "Format name",
+          "type": "char(8)",
+          "value": "JOBD0100"
+        },
+        {
+          "io": "in",
+          "var": "Qualified job description name",
+          "type": "char(20)",
+          "value": "QDFTJOBD  *LIBL     "
+        },
+        {
+          "io": "both",
+          "var": "Error code",
+          "type": "ds",
+          "value": [
+            { "var": "Bytes_Provided", "type": "int(4)", "value": 16 },
+            { "var": "Bytes_Available", "type": "int(4)", "value": 0 },
+            { "var": "Exception_Id", "type": "char(7)", "value": "" },
+            { "var": "Padding", "type": "char(1)", "hex": "on", "value": "" }
           ]
         }
       ],
-      "return":{"value":-10000}
+      "return":{"value":0}
     }
   }
 ]);
-
+// #4
 jsons.push([
   {"sh":{"error": "on", "value": "ps -ef"}},
   {"qsh":{"error": "on", "value": "echo '123'"}}
 ]);
-
+// #5
 jsons.push([
   {
     "sql": {
@@ -96,9 +93,9 @@ jsons.push([
 ]);
 
 
-if ( process.argv.length !== 8 ) {
+if ( process.argv.length !== 9 ) {
   console.log('Usage: \n');
-  console.log('node ./ipc_requests.js <host> <port> <db2> <user> <pwd> <loop_count>\n');
+  console.log('node ./ipc_requests.js <host> <port> <db2> <user> <pwd> <ctrl_flags> <loop_count>\n');
   process.exit(1);
 }
 
@@ -107,9 +104,9 @@ var port      = process.argv[3]; //'URPORT'
 var db2       = process.argv[4]; //'*LOCAL' 
 var uid       = process.argv[5]; //'GUEST'                                  // escape if needed
 var pwd       = process.argv[6]; //'passw0rd';                              // escape if needed
-var LoopCount = process.argv[7];
+var ctl       = process.argv[7]; //'*ipc(/tmp/k1)*ipcwait(600)*ipclog'      // escape if needed
+var LoopCount = process.argv[8];
 
-var ctl       = '*ipc(/tmp/k1)*waitclient(300)*waitdata(3)*ipclog';         // escape if needed
 var out_size  = 50000;
 
 

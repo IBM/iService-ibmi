@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "Utility.h"
 #include "Control.h"
+#include "IPC.h"
 #include <string>
 
 #include "Pase.h"
@@ -125,6 +126,7 @@ bool Control::parse(const char* control, FlightRec& fr)
     //!!!!! sort by alphabetic and put lengest ahead !!!!!!!!!!!!!!!!!!!!!!!!!!
     //-------------------------------------------------------------------------
     std::string& flags = ctlp->_flags;
+
     for (int i = 0 ; i < flags.length(); )
     {
       char* token = &(flags[i]);
