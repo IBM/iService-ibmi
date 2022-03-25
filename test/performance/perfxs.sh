@@ -23,12 +23,11 @@ ipc='/tmp/k2';
 
 if (( ${IPC} == 1 ))
 then
-  ctl='*sbmjob*idle(10/kill)';
+  ctl='*sbmjob*idle(30/kill)';
 else
-  ctl='';
+  ctl='*here';
 fi
 
-ctl='*here';
 in="<?xml version='1.0'?><cmd exec='system'>CHGFTPA</cmd><cmd exec='rexx'>RTVUSRPRF USRPRF(GUEST)  CCSID(?N) RTNUSRPRF(?) GRPPRF(?)</cmd><cmd exec='cmd'>CHGFTPA</cmd><sh>pwd</sh><qsh>echo '123'</qsh><sql><prepare>select INTERNET from qusrsys.qatochost where IPINTGER=?</prepare><execute><parm io='in'>1077952576</parm></execute><fetch></fetch></sql><pgm name='TESTPGM' lib='ISERVICE'><parm><data type='10A'>fake</data></parm></pgm>";
 out=3000;
 
