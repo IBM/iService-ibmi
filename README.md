@@ -378,6 +378,12 @@ let iService decide automatically.        |
 
 ## Build
 
+> If you do not have IBM i open source package installed, 
+> 1. Start SSH server in your IBM i system by 'STRTCPSVR SERVER(*SSHD)'
+> 2. In IBM i Access Client Solutions(ACS). From menu bar, select 'Tools' and then select item 'Open source package managment' to install on your IBM i system.
+> 3. Use your SSH client to connect your IBM i system.
+> 4. Now you are ready to start the build. 
+
 ### Requirements
 Building requires GNU make and gcc. These can be installed with `yum`: `yum install make-gnu gcc`
 
