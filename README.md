@@ -400,7 +400,7 @@ make
 
 OR
 
-make LIBRARY=yourlib DBGVIEW=*ALL
+make LIBRARY=yourlib DBGVIEW=*ALL BINDIR=your_ifs_bin_directory
 
 ```
 ## Security Consideration

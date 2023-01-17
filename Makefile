@@ -1,3 +1,4 @@
+BINDIR=/usr/bin
 LIBRARY=iService
 DBGVIEW=*ALL
 
@@ -95,11 +96,11 @@ Main.pgm: Main.module
 	system -q "CRTPGM ACTGRP(*CALLER) PGM($(LIBRARY)/$(@:%.pgm=%)) MODULE($(^:%.module=$(LIBRARY)/%)) BNDSRVPGM($(LIBRARY)/Storedp)" && touch $@
 
 pase.pgm: src/pase/iService.c
-	gcc -g $^ -o /usr/bin/$(LIBRARY) && touch $@
-	chmod 777 /usr/bin/$(LIBRARY) && touch $@
+	gcc -g $^ -o $(BINDIR)/$(LIBRARY) && touch $@
+	chmod 777 $(BINDIR)/$(LIBRARY) && touch $@
 
 clean: DropStoredp.sqluninst
-	rm -f *.pgm *.srvpgm *.module *.lib *.sqlinst *.srcpf *.sql /usr/bin/$(LIBRARY) src/Config.h
+	rm -f *.pgm *.srvpgm *.module *.lib *.sqlinst *.srcpf *.sql $(BINDIR)/$(LIBRARY) src/Config.h
 	system -q 'CLRLIB $(LIBRARY)' || :
 	system -q 'DLTLIB $(LIBRARY)' || :
 
